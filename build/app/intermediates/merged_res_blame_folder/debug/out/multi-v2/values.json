@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/amplifylifeindia-manohar/Downloads/assignment/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/amplifylifeindia-manohar/Documents/event_assignment/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
-                    "source": "/Users/amplifylifeindia-manohar/Downloads/assignment/android/app/src/main/res/values/styles.xml",
+                    "source": "/Users/amplifylifeindia-manohar/Documents/event_assignment/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

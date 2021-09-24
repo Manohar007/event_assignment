@@ -1,4 +1,10 @@
+import 'dart:async';
+
+import 'package:assignment/all_events/ui/all_events_feature.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,19 +16,86 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: AssignmentDemo(),
+          fontFamily: 'Montserrat',
+          accentColor: basePurpleColor,
+          appBarTheme: Theme.of(context)
+              .appBarTheme
+              .copyWith(brightness: Brightness.light, color: basePurpleColor)),
+      // ThemeData.light().copyWith(
+      //   accentColor: basePurpleColor,
+      //   appBarTheme: Theme.of(context)
+      //       .appBarTheme
+      //       .copyWith(brightness: Brightness.light,color: basePurpleColor),
+      //
+      // ),
+      // This is the theme of your application.
+      //
+      // Try running your application with "flutter run". You'll see the
+      // application has a blue toolbar. Then, without quitting the app, try
+      // changing the primarySwatch below to Colors.green and then invoke
+      // "hot reload" (press "r" in the console where you ran "flutter run",
+      // or simply save your changes to "hot reload" in a Flutter IDE).
+      // Notice that the counter didn't reset back to zero; the application
+      // is not restarted.
+      // primarySwatch: basePurpleColor,
+      // accentColor: Colors.red
+      // ),
+      home: SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _iconAnimationController;
+  late CurvedAnimation _iconAnimation;
+
+  void handleTimeout() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) => AllEventsFeature()));
+  }
+
+  startTimeout() async {
+    var duration = const Duration(seconds: 3);
+    return Timer(duration, handleTimeout);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _iconAnimationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 2000));
+
+    _iconAnimation =
+        CurvedAnimation(parent: _iconAnimationController, curve: Curves.easeIn);
+    _iconAnimation.addListener(() => this.setState(() {}));
+
+    _iconAnimationController.forward();
+
+    startTimeout();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+          child: Image(
+        image: AssetImage("assets/logo.png"),
+        width: _iconAnimation.value * 100,
+        height: _iconAnimation.value * 100,
+      )),
+      backgroundColor: basePurpleColor,
     );
   }
 }
@@ -37,6 +110,7 @@ class AssignmentDemo extends StatefulWidget {
 class _AssignmentDemoState extends State<AssignmentDemo> {
   late Color _color;
   late TextEditingController controller;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -67,17 +141,18 @@ class _AssignmentDemoState extends State<AssignmentDemo> {
               }
             },
           ),
-          Expanded(child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-            Container(
-              width: 200.0,
-              decoration: BoxDecoration(
-                  color: _color,
-                  border: Border.all(color: Colors.black, width: 1)),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            )
-          ]))
+          Expanded(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                Container(
+                  width: 200.0,
+                  decoration: BoxDecoration(
+                      color: _color,
+                      border: Border.all(color: Colors.black, width: 1)),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                )
+              ]))
         ],
       ),
     );
